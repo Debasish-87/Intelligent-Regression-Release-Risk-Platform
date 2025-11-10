@@ -1,178 +1,155 @@
----
+# QA Automation Framework (Selenium + TestNG + Allure + API + CI/CD + GitHub Pages)
 
-# 🌟 QA Automation Framework (Selenium + TestNG + Allure + API + DDT)
+This is a **Production-Grade** Automation Framework designed for **UI + API Testing** with a clean, modular structure using **Page Object Model (POM)**, **Data-Driven Testing**, **Allure Reporting**, and **Continuous Integration** via **GitHub Actions**.
 
-This is a **Production-Grade Automation Framework** built for **UI + API Testing**, following **Page Object Model**, **Data-Driven Testing**, **Allure Reporting**, and **Scalable Test Execution** structure.
-Framework is designed for **real enterprise use cases**, maintainability, reusability, and CI/CD readiness.
+### 🔥 Live Allure Report Dashboard  
+🔗 **https://debasish-87.github.io/qa-automation-framework-selenium-testng-allure/**
 
----
-
-## ✅ Features
-
-| Feature                     | Status | Description                                     |
-| --------------------------- | :----: | ----------------------------------------------- |
-| Selenium UI Automation      |    ✅   | Full workflow coverage for SauceDemo app        |
-| TestNG Framework            |    ✅   | Supports parallel execution + test suites       |
-| Page Object Model (POM)     |    ✅   | Clean, scalable & maintainable structure        |
-| Allure Reports              |    ✅   | Rich HTML reports + screenshots on failure      |
-| Log4j2 Logging              |    ✅   | Centralized logging for debugging               |
-| WebDriverManager            |    ✅   | Auto driver setup (no manual exe required)      |
-| API Testing (RestAssured)   |    ✅   | API CRUD tests using ReqRes API                 |
-| Data-Driven Testing         |    ✅   | Excel + JSON based test input                   |
-| Test Listener (Screenshots) |    ✅   | Screenshots automatically captured              |
-| CI/CD Ready                 |    ✅   | Can be integrated with GitHub Actions / Jenkins |
+[![Allure_Report](https://img.shields.io/badge/Allure-Report-blue?style=for-the-badge)](https://debasish-87.github.io/qa-automation-framework-selenium-testng-allure/)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Debasish-87/qa-automation-framework-selenium-testng-allure/allure-deploy.yml?label=CI%20Build&style=for-the-badge)](https://github.com/Debasish-87/qa-automation-framework-selenium-testng-allure/actions)
 
 ---
 
-## 🏗️ Project Tech Stack
+## ✅ Key Features
 
-| Layer          | Tools                               |
-| -------------- | ----------------------------------- |
-| Language       | Java                                |
-| Build Tool     | Maven                               |
-| UI Automation  | Selenium WebDriver                  |
-| API Testing    | RestAssured                         |
-| Test Runner    | TestNG                              |
-| Reporting      | Allure Report                       |
-| Logging        | Log4j2                              |
-| Data Providers | Excel (Apache POI) & JSON (Jackson) |
+| Feature | Status | Description |
+|--------|--------|-------------|
+| Selenium UI Automation | ✅ | UI Workflow Automation for SauceDemo |
+| API Testing (RestAssured) | ✅ | CRUD + Data Verification using ReqRes API |
+| TestNG Framework | ✅ | Parallel execution + Suite-level config |
+| Page Object Model | ✅ | Clean, reusable maintainable structure |
+| Data-Driven Testing | ✅ | Test data from **Excel + JSON** |
+| WebDriverManager | ✅ | Auto Driver setup (No manual .exe needed) |
+| Allure Report | ✅ | Screenshot on failure + Test Steps + Trends |
+| CI/CD Ready | ✅ | Automated Execution via GitHub Actions |
+| GitHub Pages Deployment | ✅ | Live Hosted Allure Dashboard |
 
 ---
 
-## 🧱 Folder Structure
+## 🏗️ Architecture Diagram
 
 ```
+
 src
- ├── main
- │   ├── java
- │   │   ├── base            # Driver setup and TestBase
- │   │   ├── pages           # Page Object Model classes
- │   │   ├── utils           # Helper utilities (Wait, Logs, Excel, JSON)
- │   │   └── api             # API Client + Service classes
- │   └── resources
- │       ├── config.properties
- │       └── log4j2.xml
- └── test
-     ├── java
-     │   ├── tests/ui        # UI Test Classes
-     │   ├── tests/api       # API Test Classes
-     │   └── listeners       # Screenshot + Logging Listeners
-     └── resources/testdata  # Excel + JSON Test Data
-```
+├── main
+│   ├── java
+│   │   ├── base            # Driver Setup & TestBase
+│   │   ├── pages           # Page Objects (UI Screens)
+│   │   ├── utils           # Wait, Logs, Excel, JSON, Screenshot Utils
+│   │   └── api             # API Request Builders & DTOs
+│   └── resources
+│       ├── config.properties
+│       └── log4j2.xml
+└── test
+├── java
+│   ├── tests/ui        # UI Test Cases
+│   ├── tests/api       # API Test Cases
+│   └── listeners       # Screenshot + Allure Event Listeners
+└── resources/testdata  # JSON + Excel Test Inputs
+
+````
 
 ---
 
-## 🚀 How to Run Tests
+## 🧪 Test Execution
 
-### **Run All Tests**
-
-```
+### Run All Tests:
+```bash
 mvn clean test
+````
+
+### Run in **Headless Mode** (CI/CD mode):
+
+```bash
+mvn clean test -Dheadless=true
 ```
 
-### **Run UI Tests Only**
+### Generate Allure Report:
 
-```
-mvn clean test -Dsuite=UI
-```
-
-### **Run API Tests Only**
-
-```
-mvn clean test -Dsuite=API
-```
-
----
-
-## 📊 Generate Allure Report
-
-### After test execution:
-
-```
+```bash
 mvn allure:serve
 ```
 
-This opens **live interactive test report** in browser:
+---
 
-* Step by step logs
-* Attached screenshots (on failure)
-* Environment data
-* Test history
+## 📊 Allure Report Includes
+
+✔ Step-Level Execution Logs
+✔ Screenshots on Failure
+✔ Execution Timeline
+✔ Test History + Trend UI
+✔ Environment Metadata
 
 ---
 
-## 🎯 Test Scenarios Covered
+## 🎯 UI Test Scenarios (SauceDemo)
 
-### UI Test Flows (SauceDemo App)
+| Scenario               | Status |
+| ---------------------- | ------ |
+| Valid User Login       | ✅      |
+| Locked User Login      | ✅      |
+| Add To Cart            | ✅      |
+| Checkout & Place Order | ✅      |
 
-| Scenario                     | Status |
-| ---------------------------- | :----: |
-| User Login (Valid + Invalid) |    ✅   |
-| Add Product to Cart          |    ✅   |
-| Checkout Customer Info       |    ✅   |
-| Complete Order Flow          |    ✅   |
+---
 
-### API Test Flows (ReqRes API)
+## 🌐 API Test Scenarios (ReqRes API)
 
 | Endpoint          | Method | Purpose     | Status |
-| ----------------- | ------ | ----------- | :----: |
-| `/api/users`      | POST   | Create User |    ✅   |
-| `/api/users/{id}` | GET    | Fetch User  |    ✅   |
+| ----------------- | ------ | ----------- | ------ |
+| `/api/users`      | POST   | Create User | ✅      |
+| `/api/users/{id}` | GET    | Fetch User  | ✅      |
 
 ---
 
-## 📂 Key Class Locations
+## 🔧 Tech Stack
 
-| Purpose               | Class                             |
-| --------------------- | --------------------------------- |
-| Base Web Test Setup   | `base/BaseTest.java`              |
-| Driver Manager        | `base/DriverManager.java`         |
-| Login Page            | `pages/LoginPage.java`            |
-| Checkout Flow         | `tests/ui/CheckoutFlowTests.java` |
-| API Client            | `api/ApiClient.java`              |
-| API Tests             | `tests/api/ReqResApiTests.java`   |
-| Screenshot on Failure | `listeners/TestListener.java`     |
-
----
-
-## 📌 Screenshots On Failure (Auto Attached in Allure)
-
-* Implemented in → `ScreenshotUtils.java` + `TestListener.java`
-* Captures:
-
-  * Browser screen
-  * Test step logs
+| Layer         | Tool               |
+| ------------- | ------------------ |
+| Language      | Java 17            |
+| Test Runner   | TestNG             |
+| UI Automation | Selenium WebDriver |
+| API Testing   | RestAssured        |
+| Reporting     | Allure Report      |
+| Logging       | Log4j2             |
+| Build Tool    | Maven              |
 
 ---
 
-## 🏁 CI/CD Integration (Optional)
+## 🤖 CI/CD - GitHub Actions Workflow
 
-To run tests automatically on every push – add this file:
+This project automatically:
+
+* Runs tests on every push
+* Generates Allure Report
+* Publishes Report to `GitHub Pages` branch
+
+Workflow File:
 
 ```
-.github/workflows/ci.yml
+.github/workflows/allure-deploy.yml
 ```
 
-(If you want, I will generate it next ✅)
+---
+
+## 🧠 How to Explain This in an Interview
+
+> “This framework demonstrates end-to-end automation capability including UI + API testing, POM-based architecture, data-driven execution, advanced reporting using Allure, and CI/CD pipeline integration. The report is auto-published to GitHub Pages for real-time visibility.”
 
 ---
 
-## 🔥 How to Showcase This Project in Interview
+## 👤 Author
 
-**Say this:**
-
-> “This framework demonstrates complete QA capability — UI + API Test Automation, POM architecture, data-driven execution, logging, reporting, and CI-ready structure. The framework is modular, reusable, and environment-configurable.”
-
----
-
-## ⭐ Author
-
-**Debasish**
-QA Automation Engineer
-📧 [22btics06@suiit.ac.in](mailto:22btics06@suiit.ac.in)
-🔗 GitHub: [https://github.com/Debasish-87](https://github.com/Debasish-87)
+**Debasish** — QA Automation Engineer
+📧 Email: [22btics06@suiit.ac.in](mailto:22btics06@suiit.ac.in)
+🔗 GitHub Profile: [https://github.com/Debasish-87](https://github.com/Debasish-87)
 
 ---
 
+✨ *If this helped you — give it a star ⭐ on GitHub.*
 
-I will generate **`.github/workflows/ci.yml`** → copy-paste → CI ready 🚀
+```
+
+
+And I’ll create a **strong post + hashtags** that gets **recruiter attention** 🔥
+```
