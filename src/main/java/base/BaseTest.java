@@ -1,46 +1,52 @@
 package base;
 
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-
 import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-
+import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import utils.ConfigReader;
 
 import java.io.ByteArrayInputStream;
 
-
 public class BaseTest {
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup() {
 
-        // Initialize Driver
+        // Initialize Driver (suite-safe)
         DriverManager.initDriver();
+
+        WebDriver driver = DriverManager.getDriver();
 
         // Navigate to URL from config.properties
         String url = ConfigReader.getProperty("url");
-        DriverManager.getDriver().get(url);
+        driver.get(url);
 
         // Maximize Browser
-        DriverManager.getDriver().manage().window().maximize();
+        driver.manage().window().maximize();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
 
-        //  Take screenshot only if test fails
-        if (result.getStatus() == ITestResult.FAILURE) {
-            byte[] screenshot = ((TakesScreenshot) DriverManager.getDriver())
+        WebDriver driver = DriverManager.getDriver();
+
+        // Take screenshot only if test fails
+        if (driver != null && result.getStatus() == ITestResult.FAILURE) {
+
+            byte[] screenshot = ((TakesScreenshot) driver)
                     .getScreenshotAs(OutputType.BYTES);
 
-            Allure.addAttachment("Failed Test Screenshot",
-                    new ByteArrayInputStream(screenshot));
+            Allure.addAttachment(
+                    "Failed Test Screenshot",
+                    new ByteArrayInputStream(screenshot)
+            );
         }
 
+        // Quit & clean ThreadLocal driver
         DriverManager.quitDriver();
     }
 }

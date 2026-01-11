@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,14 +9,21 @@
     <artifactId>qa-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- ================= PROPERTIES ================= -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <encoding>UTF-8</encoding>
+
+        <!-- Allure -->
         <allure.version>2.27.0</allure.version>
+
+        <!-- ✅ DEFAULT TestNG SUITE (VERY IMPORTANT) -->
+        <!-- Agar kuch pass nahi kiya → testng.xml -->
+        <suiteXmlFile>testng.xml</suiteXmlFile>
     </properties>
 
-    <!-- ✅ Add Repository for Spark Reporter -->
+    <!-- ================= REPOSITORIES ================= -->
     <repositories>
         <repository>
             <id>jitpack.io</id>
@@ -23,6 +31,7 @@
         </repository>
     </repositories>
 
+    <!-- ================= DEPENDENCIES ================= -->
     <dependencies>
 
         <!-- Selenium -->
@@ -53,37 +62,28 @@
             <version>${allure.version}</version>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.13</version>
-        </dependency>
-
-        <!-- Apache POI (Excel) -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>5.2.5</version>
-        </dependency>
-
-
-        <!-- REST ASSURED API Testing -->
+        <!-- REST Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.4.0</version>
         </dependency>
 
-        <!-- Jackson JSON Parser -->
+        <!-- Apache POI -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.17.0</version>
         </dependency>
 
-
-        <!-- Log4j2 Logging -->
+        <!-- Log4j2 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -95,9 +95,16 @@
             <version>2.20.0</version>
         </dependency>
 
+        <!-- SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
 
     </dependencies>
 
+    <!-- ================= BUILD ================= -->
     <build>
         <plugins>
 
@@ -113,14 +120,14 @@
                 </configuration>
             </plugin>
 
-            <!-- TestNG Execution -->
+            <!-- ✅ SINGLE & FINAL SUREFIRE PLUGIN -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <allure.results.directory>target/allure-results</allure.results.directory>
@@ -128,7 +135,8 @@
                 </configuration>
             </plugin>
 
-            <!-- Allure Report Plugin -->
+
+            <!-- Allure Maven Plugin -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>

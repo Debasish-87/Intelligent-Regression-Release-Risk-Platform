@@ -10,6 +10,9 @@ import utils.ExcelUtils;
 import utils.LoggerUtil;
 import org.apache.logging.log4j.Logger;
 
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+
 public class LoginTest extends BaseTest {
 
     Logger log = LoggerUtil.getLogger(LoginTest.class);
@@ -22,10 +25,15 @@ public class LoginTest extends BaseTest {
         );
     }
 
-    @Test(dataProvider = "loginData", description = "Login with multiple datasets from Excel")
+    @Test(
+            dataProvider = "loginData",
+            groups = {"Smoke", "Critical", "Regression"},
+            description = "Login with multiple datasets from Excel"
+    )
+    @Severity(SeverityLevel.BLOCKER)
     public void loginTestDDT(String username, String password, String expectedResult) {
 
-        log.info("💡 Starting test with Username: " + username + " | Expected: " + expectedResult);
+        log.info("Starting test with Username: " + username + " | Expected: " + expectedResult);
 
         LoginPage loginPage = new LoginPage();
         loginPage.login(username, password);
@@ -34,15 +42,15 @@ public class LoginTest extends BaseTest {
         boolean isLoggedIn = inventoryPage.isUserLoggedIn();
 
         if (expectedResult.equalsIgnoreCase("success")) {
-            log.info(" Verifying successful login...");
+            log.info("Verifying successful login...");
             Assert.assertTrue(isLoggedIn,
-                    " Expected login to succeed for: " + username);
-            log.info(" Login successful as expected for user: " + username);
+                    "Expected login to succeed for: " + username);
+            log.info("Login successful as expected for user: " + username);
         } else {
-            log.info(" Verifying login failure...");
+            log.info("Verifying login failure...");
             Assert.assertFalse(isLoggedIn,
-                    " Expected login to fail for: " + username);
-            log.info(" Login failed as expected for user: " + username);
+                    "Expected login to fail for: " + username);
+            log.info("Login failed as expected for user: " + username);
         }
     }
 }

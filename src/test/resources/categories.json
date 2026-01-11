@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Authentication Issues",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*login.*|.*authentication.*"
+  },
+  {
+    "name": "Critical Business Blockers",
+    "matchedStatuses": ["failed"],
+    "severity": "blocker"
+  }
+]
