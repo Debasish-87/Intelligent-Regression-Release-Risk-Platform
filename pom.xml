@@ -6,30 +6,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.project</groupId>
-    <artifactId>qa-framework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>intelligent-regression-release-risk</artifactId>
+    <version>2.0-SNAPSHOT</version>
 
     <!-- ================= PROPERTIES ================= -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Allure -->
         <allure.version>2.27.0</allure.version>
-
-        <!-- ✅ DEFAULT TestNG SUITE (VERY IMPORTANT) -->
-        <!-- Agar kuch pass nahi kiya → testng.xml -->
         <suiteXmlFile>testng.xml</suiteXmlFile>
     </properties>
-
-    <!-- ================= REPOSITORIES ================= -->
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 
     <!-- ================= DEPENDENCIES ================= -->
     <dependencies>
@@ -48,11 +36,12 @@
             <version>5.9.2</version>
         </dependency>
 
-        <!-- TestNG -->
+        <!-- TestNG (FRAMEWORK DEPENDENCY – IMPORTANT) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.9.0</version>
+            <!-- ⚠️ DO NOT put test scope -->
         </dependency>
 
         <!-- Allure TestNG -->
@@ -80,7 +69,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.17.0</version>
+            <version>2.17.1</version>
         </dependency>
 
         <!-- Log4j2 -->
@@ -114,27 +103,35 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${encoding}</encoding>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
-            <!-- ✅ SINGLE & FINAL SUREFIRE PLUGIN -->
+            <!-- SINGLE Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+
+                    <!-- TestNG Suite -->
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
+
+                    <!-- Enable Groups -->
+                    <groups>${groups}</groups>
+
+                    <!-- Allure -->
                     <systemPropertyVariables>
-                        <allure.results.directory>target/allure-results</allure.results.directory>
+                        <allure.results.directory>
+                            ${project.build.directory}/allure-results
+                        </allure.results.directory>
                     </systemPropertyVariables>
+
                 </configuration>
             </plugin>
-
 
             <!-- Allure Maven Plugin -->
             <plugin>

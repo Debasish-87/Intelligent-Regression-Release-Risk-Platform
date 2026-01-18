@@ -44,3 +44,10 @@ build/
 /.allure/
 /.idea/
 *.iml
+
+
+target/
+allure-results/
+logs/
+.idea/
+history/

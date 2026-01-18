@@ -15,25 +15,34 @@ import io.qameta.allure.SeverityLevel;
 
 public class LoginTest extends BaseTest {
 
-    Logger log = LoggerUtil.getLogger(LoginTest.class);
+    private static final Logger log =
+            LoggerUtil.getLogger(LoginTest.class);
+
+    // ================= DATA PROVIDER =================
 
     @DataProvider(name = "loginData")
     public Object[][] loginDataProvider() {
         return ExcelUtils.getSheetData(
-                "src/test/resources/testdata/logindata.xlsx",
-                "Sheet1"
+                "src/test/resources/testdata/login_data_clean.xlsx",
+                "LoginData"
         );
     }
 
+    // ================= TEST =================
+
     @Test(
             dataProvider = "loginData",
-            groups = {"Smoke", "Critical", "Regression"},
+            groups = {"Regression", "Critical"},
             description = "Login with multiple datasets from Excel"
     )
     @Severity(SeverityLevel.BLOCKER)
-    public void loginTestDDT(String username, String password, String expectedResult) {
+    public void loginTestDDT(
+            String username,
+            String password,
+            String expectedResult) {
 
-        log.info("Starting test with Username: " + username + " | Expected: " + expectedResult);
+        log.info("🔐 Login Test Started | User: {} | Expected: {}",
+                username, expectedResult);
 
         LoginPage loginPage = new LoginPage();
         loginPage.login(username, password);
@@ -41,16 +50,28 @@ public class LoginTest extends BaseTest {
         InventoryPage inventoryPage = new InventoryPage();
         boolean isLoggedIn = inventoryPage.isUserLoggedIn();
 
-        if (expectedResult.equalsIgnoreCase("success")) {
-            log.info("Verifying successful login...");
-            Assert.assertTrue(isLoggedIn,
-                    "Expected login to succeed for: " + username);
-            log.info("Login successful as expected for user: " + username);
+        boolean shouldLoginSucceed =
+                "success".equalsIgnoreCase(expectedResult);
+
+        // ================= ASSERTION =================
+
+        if (shouldLoginSucceed) {
+
+            log.info("✅ Verifying successful login...");
+            Assert.assertTrue(
+                    isLoggedIn,
+                    "Expected login to succeed for user: " + username
+            );
+
         } else {
-            log.info("Verifying login failure...");
-            Assert.assertFalse(isLoggedIn,
-                    "Expected login to fail for: " + username);
-            log.info("Login failed as expected for user: " + username);
+
+            log.info("❌ Verifying login failure...");
+            Assert.assertFalse(
+                    isLoggedIn,
+                    "Expected login to fail for user: " + username
+            );
         }
+
+        log.info("🏁 Login Test Finished for user: {}", username);
     }
 }

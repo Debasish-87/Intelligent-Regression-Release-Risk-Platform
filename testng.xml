@@ -1,15 +1,42 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="UI Tests Suite">
+<suite name="QE 2.0 Intelligent Release Suite"
+       verbose="1"
+       preserve-order="true">
 
+    <!-- ================= LISTENERS ================= -->
     <listeners>
         <listener class-name="listeners.TestListener"/>
-        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="listeners.ReleaseDecisionListener"/>
     </listeners>
 
-    <test name="UI Tests">
+    <!-- ================= UI TESTS ================= -->
+    <test name="UI Tests" group-by-instances="true">
+        <groups>
+            <run>
+                <include name="Smoke"/>
+                <include name="Critical"/>
+                <include name="Regression"/>
+            </run>
+        </groups>
+
         <classes>
             <class name="tests.ui.LoginTest"/>
             <class name="tests.ui.CheckoutFlowTests"/>
+        </classes>
+    </test>
+
+    <!-- ================= API TESTS ================= -->
+    <test name="API Tests" group-by-instances="true">
+        <groups>
+            <run>
+                <include name="API"/>
+                <include name="Critical"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="tests.api.ReqResApiTests"/>
+            <class name="tests.api.ReqResTests"/>
         </classes>
     </test>
 

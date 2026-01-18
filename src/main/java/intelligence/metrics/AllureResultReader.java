@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.IOException;
 
 public class AllureResultReader {
 
-    private static final String ALLURE_RESULTS_PATH  = "allure_result";
+    private static final String ALLURE_RESULTS_PATH = "target/allure-results";
 
     public QualityMetrics calculateMetrics() {
+
         QualityMetrics metrics = new QualityMetrics();
 
         int total = 0;
@@ -18,35 +18,57 @@ public class AllureResultReader {
         int failed = 0;
         int skipped = 0;
 
-
-        ObjectMapper mapper = new ObjectMapper();
         File resultsDir = new File(ALLURE_RESULTS_PATH);
 
-        for  (File file : resultsDir.listFiles()) {
-            if(file.getName().endsWith("-result.json")) {
-                try {
-                    JsonNode root = mapper.readTree(file);
-                    String status = root.get("status").asText();
+        //  SAFETY CHECK 1
+        if (!resultsDir.exists() || !resultsDir.isDirectory()) {
+            System.out.println("[WARN] Allure results directory not found.");
+            return metrics;
+        }
 
-                    total++;
+        File[] files = resultsDir.listFiles();
 
-                    switch(status) {
+        //  SAFETY CHECK 2
+        if (files == null || files.length == 0) {
+            System.out.println("[WARN] No Allure result files found.");
+            return metrics;
+        }
 
-                        case "passed":
-                            passed++;
-                            break;
-                        case "failed":
-                            failed++;
-                            break;
-                        case "skipped":
-                            skipped++;
-                            break;
+        ObjectMapper mapper = new ObjectMapper();
 
-                    }
+        for (File file : files) {
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (!file.getName().endsWith("-result.json")) {
+                continue;
+            }
+
+            try {
+                JsonNode root = mapper.readTree(file);
+
+                //  SAFETY CHECK 3
+                if (!root.has("status")) {
+                    continue;
                 }
+
+                String status = root.get("status").asText();
+                total++;
+
+                switch (status.toLowerCase()) {
+                    case "passed":
+                        passed++;
+                        break;
+                    case "failed":
+                        failed++;
+                        break;
+                    case "skipped":
+                        skipped++;
+                        break;
+                    default:
+                        break;
+                }
+
+            } catch (Exception e) {
+                System.out.println("[ERROR] Failed parsing: " + file.getName());
             }
         }
 
@@ -54,7 +76,11 @@ public class AllureResultReader {
         metrics.setPassed(passed);
         metrics.setFailed(failed);
         metrics.setSkipped(skipped);
-        metrics.setPassPercentage((passed * 100.0) / total);
+
+        //  SAFETY CHECK 4 (divide-by-zero)
+        metrics.setPassPercentage(
+                total == 0 ? 0.0 : (passed * 100.0) / total
+        );
 
         return metrics;
     }

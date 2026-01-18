@@ -1,0 +1,22 @@
+{
+  "LoginTest": {
+    "priority": "HIGH",
+    "critical": true,
+    "module": "Authentication"
+  },
+  "CheckoutFlowTests": {
+    "priority": "HIGH",
+    "critical": true,
+    "module": "Order"
+  },
+  "InventoryPageTests": {
+    "priority": "MEDIUM",
+    "critical": false,
+    "module": "Catalog"
+  },
+  "ReqResApiTests": {
+    "priority": "MEDIUM",
+    "critical": false,
+    "module": "API"
+  }
+}
