@@ -266,7 +266,7 @@ This project demonstrates **enterprise-grade QA engineering**:
 
 **Debasish**
 
-Junior SDET / Quality Engineer | QA Automation | Cloud & DevOps Engineer
+Junior SDET / Quality Engineer | QA Automation
 
 📧 Email: **[debasishm8765@gmail.com](mailto:debasishm8765@gmail.com)**
 🔗 GitHub: **[https://github.com/Debasish-87](https://github.com/Debasish-87)**
