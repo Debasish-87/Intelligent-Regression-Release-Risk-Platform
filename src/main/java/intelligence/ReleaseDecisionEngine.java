@@ -42,7 +42,7 @@ public class ReleaseDecisionEngine {
             }
 
             // Any very high risk blocks release
-            if (risk >= 7) {
+            if (risk >= 9) {
                 return Decision.NO_GO;
             }
         }
