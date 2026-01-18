@@ -36,12 +36,11 @@
             <version>5.9.2</version>
         </dependency>
 
-        <!-- TestNG (FRAMEWORK DEPENDENCY – IMPORTANT) -->
+        <!-- TestNG (Framework Dependency – NO test scope) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.9.0</version>
-            <!-- ⚠️ DO NOT put test scope -->
         </dependency>
 
         <!-- Allure TestNG -->
@@ -108,26 +107,37 @@
                 </configuration>
             </plugin>
 
-            <!-- SINGLE Surefire Plugin -->
+            <!-- 🔑 CRITICAL: CI-SAFE Surefire Configuration -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+
                 <configuration>
+
+                    <!-- 🚫 Disable fork to avoid history write crash -->
+                    <forkCount>0</forkCount>
+                    <reuseForks>false</reuseForks>
 
                     <!-- TestNG Suite -->
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
 
-                    <!-- Enable Groups -->
+                    <!-- Groups Support -->
                     <groups>${groups}</groups>
 
-                    <!-- Allure -->
+                    <!-- System Properties -->
                     <systemPropertyVariables>
+
+                        <!-- Allure -->
                         <allure.results.directory>
                             ${project.build.directory}/allure-results
                         </allure.results.directory>
+
+                        <!-- CI Flag for Risk Engine -->
+                        <CI>true</CI>
+
                     </systemPropertyVariables>
 
                 </configuration>

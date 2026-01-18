@@ -26,16 +26,33 @@ jobs:
       - name: Run Tests (Headless)
         run: mvn clean test -Dheadless=true
 
-      - name: Generate Allure Report
-        run: mvn allure:report
-
+      #  STEP 1: Restore previous Allure history BEFORE report generation
       - name: Restore previous Allure history
         run: |
           git clone --depth 1 --branch gh-pages https://github.com/${{ github.repository }} gh-pages || true
           if [ -d "gh-pages/history" ]; then
-            cp -R gh-pages/history ./target/site/allure-maven-plugin/history
+            echo "Copying previous Allure history"
+            mkdir -p target/site/allure-maven-plugin
+            cp -R gh-pages/history target/site/allure-maven-plugin/
+          else
+            echo "No previous history found"
           fi
 
+      #  STEP 2: Generate Allure Report (history already present)
+      - name: Generate Allure Report
+        run: mvn allure:report
+
+      #  OPTIONAL – QE 2.0 GOVERNANCE (recommended)
+      - name: Fail pipeline on NO_GO decision
+        run: |
+          if grep -R "FINAL DECISION → NO_GO" target/allure-results; then
+            echo "Release decision is NO_GO "
+            exit 1
+          else
+            echo "Release decision is GO/HOLD "
+          fi
+
+      #  STEP 3: Deploy to GitHub Pages
       - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

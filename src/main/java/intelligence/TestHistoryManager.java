@@ -1,5 +1,6 @@
 package intelligence;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -13,32 +14,40 @@ import java.util.*;
  */
 public class TestHistoryManager {
 
-    private static final String HISTORY_PATH = "history/test-history.json";
+    private static final String HISTORY_DIR = "history";
+    private static final String HISTORY_FILE = "test-history.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Load historical test execution data
      */
     public static Map<String, List<String>> loadHistory() {
+
         try {
-            File file = new File(HISTORY_PATH);
+            File file = getHistoryFile();
 
             if (!file.exists()) {
                 return new HashMap<>();
             }
 
-            return mapper.readValue(file, Map.class);
+            return mapper.readValue(
+                    file,
+                    new TypeReference<Map<String, List<String>>>() {}
+            );
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load test history", e);
+            // ⚠️ NEVER break test execution due to history issues
+            System.err.println("[QE 2.0] Unable to load test history. Skipping history read.");
+            return new HashMap<>();
         }
     }
 
     /**
      * Update execution result for a test
-     * IMPORTANT: testName must be CLASS NAME (not method name)
+     * IMPORTANT: testName must be CLASS NAME
      */
     public static synchronized void updateHistory(String testName, String result) {
+
         try {
             Map<String, List<String>> history = loadHistory();
 
@@ -46,16 +55,19 @@ public class TestHistoryManager {
             history.get(testName).add(result);
 
             mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new File(HISTORY_PATH), history);
+                    .writeValue(getHistoryFile(), history);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to update test history", e);
+            // ⚠️ CI SAFE: Do NOT fail build
+            System.err.println(
+                    "[QE 2.0] Failed to update test history for "
+                            + testName + ". Skipping history write."
+            );
         }
     }
 
     /**
-     * Utility method to normalize test names
-     * Ensures only class-level names are used
+     * Normalize test names to class-level identifiers
      */
     public static String normalizeTestName(String rawName) {
 
@@ -63,7 +75,6 @@ public class TestHistoryManager {
             return "UNKNOWN_TEST";
         }
 
-        // If fully qualified class name is passed
         if (rawName.contains(".")) {
             return rawName.substring(rawName.lastIndexOf('.') + 1);
         }
@@ -71,7 +82,21 @@ public class TestHistoryManager {
         return rawName;
     }
 
-    // 🔹 TEMP MAIN (OPTIONAL – FOR LOCAL DEBUG ONLY)
+    /**
+     * Ensures history directory & file exist
+     */
+    private static File getHistoryFile() {
+
+        File dir = new File(HISTORY_DIR);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        return new File(dir, HISTORY_FILE);
+    }
+
+    // 🔹 LOCAL DEBUG ONLY (OPTIONAL)
     public static void main(String[] args) {
 
         updateHistory(normalizeTestName("tests.ui.LoginTest"), "PASS");
