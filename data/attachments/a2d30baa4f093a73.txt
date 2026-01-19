@@ -1,0 +1,10 @@
+===== RELEASE DECISION SUMMARY =====
+LoginTest → Risk: 7
+ReqResApiTests → Risk: 1
+ReqResTests → Risk: 1
+-----------------------------------
+FINAL DECISION → HOLD
+
+LoginTest → RISK SCORE: 7
+ReqResApiTests → RISK SCORE: 1
+ReqResTests → RISK SCORE: 1
