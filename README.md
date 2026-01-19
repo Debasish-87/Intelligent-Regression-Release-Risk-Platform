@@ -23,6 +23,14 @@ All decisions are **visible inside Allure Reports and enforced in CI pipelines**
 
 ---
 
+## 🎥 QE 3.0 – Intelligent Release Decision Demo
+
+▶️ **Click below to watch the demo video**
+
+https://github.com/user-attachments/assets/d035c94b-4465-4188-bdd0-6f0548aa50a1
+
+---
+
 ## ✅ Key Features
 
 | Feature                      | Description                                         |
