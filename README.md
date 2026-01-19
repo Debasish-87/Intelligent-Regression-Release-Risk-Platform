@@ -1,4 +1,4 @@
-# Intelligent Regression Release Risk Platform (QE 2.0)
+# Intelligent Regression Release Risk Platform (QE 3.0)
 
 ### (Selenium + TestNG + POM + Allure + API + Risk Engine + CI/CD Governance)
 
@@ -41,7 +41,7 @@ All decisions are **visible inside Allure Reports and enforced in CI pipelines**
 
 ---
 
-## 🧠 QE 2.0 – What Makes This Different?
+## 🧠 QE 3.0 – What Makes This Different?
 
 Unlike traditional automation frameworks, this platform:
 
@@ -266,7 +266,7 @@ This project demonstrates **enterprise-grade QA engineering**:
 
 **Debasish**
 
-Junior SDET / Quality Engineer | QA Automation
+SDET / Quality Engineer | QA Automation
 
 📧 Email: **[debasishm8765@gmail.com](mailto:debasishm8765@gmail.com)**
 🔗 GitHub: **[https://github.com/Debasish-87](https://github.com/Debasish-87)**
