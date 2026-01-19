@@ -1,4 +1,4 @@
-# Intelligent Regression Release Risk Platform (QE 3.0)
+# Intelligent Regression Release Risk Platform ( QE 3.0 )
 
 ### (Selenium + TestNG + POM + Allure + API + Risk Engine + CI/CD Governance)
 
@@ -98,7 +98,7 @@ Intelligent-Regression-Release-Risk-Platform
 │   │   │   │   ├── ApiClient.java
 │   │   │   │   └── ReqResService.java
 │   │   │   │
-│   │   │   ├── intelligence                        # QE 2.0 Release Intelligence Engine
+│   │   │   ├── intelligence                        # QE 3.0 Release Intelligence Engine
 │   │   │   │   ├── FlakyTestDetector.java
 │   │   │   │   ├── RiskScoreCalculator.java
 │   │   │   │   ├── ReleaseDecisionEngine.java
