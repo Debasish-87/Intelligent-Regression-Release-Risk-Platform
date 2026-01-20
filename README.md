@@ -17,7 +17,7 @@ All decisions are **visible inside Allure Reports and enforced in CI pipelines**
 
 ## 🔥 Live Allure Report Dashboard
 
-🔗 **[https://debasish-87.github.io/Intelligent-Regression-Release-Risk-Platform/](https://debasish-87.github.io/Intelligent-Regression-Release-Risk-Platform/)**
+🔗 **[https://debasish-87.github.io/intelligent-release-risk-platform/](https://debasish-87.github.io/intelligent-release-risk-platform/)**
 
 > 📊 Allure Report + 🚦 Release Decision Status is available after every pipeline run.
 
@@ -81,7 +81,7 @@ Unlike traditional automation frameworks, this platform:
 ## 📂 Project Folder Structure
 
 ```
-Intelligent-Regression-Release-Risk-Platform
+intelligent-release-risk-platform
 │
 ├── pom.xml                                         # Maven dependencies & plugins
 ├── testng.xml                                      # TestNG master suite
